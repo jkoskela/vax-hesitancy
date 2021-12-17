@@ -69,9 +69,12 @@ def main(reader, writer, mergeheaders, colLat, colLong):
         county = None
         if latitude and longitude:
             # Not optimized
-	        geodata = reverse_geocoder.search((latitude, longitude))
-	        state = geodata[0]['admin1']
-	        county = geodata[0]['admin2']
+            coordinate = (float(latitude), float(longitude))
+            geodata = reverse_geocoder.get(coordinate)
+            state = geodata['admin1']
+            county = geodata['admin2']
+            if idx % 25:
+                print(f'Processed {idx+1} rows.')
         else:
         	print("Missing coordinates for row", idx)
 
